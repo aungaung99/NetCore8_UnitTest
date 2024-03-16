@@ -13,15 +13,17 @@ namespace NetCore8_UnitTest.APIs.Controllers
 		private readonly NetCoreDemoDbContext _context = context;
 
 		[HttpGet]
-		public async Task<IActionResult> GetAsync()
+		public async Task<IActionResult> GetListAsync()
 		{
-			return Ok(await _context.States.ToListAsync());
+			List<State> list = await _context.States.ToListAsync();
+
+			return list.Count > 0 ? Ok(list) : NotFound();
 		}
 
 		[HttpGet("/{id}")]
 		public async Task<IActionResult> GetByIdAsync(int id)
 		{
-			State? state = await _context.States.FirstOrDefaultAsync(x => x.StateId == id);
+			State? state = await _context.States.FirstOrDefaultAsync(x => x.StateId == id).ConfigureAwait(false);
 			return state != null ? Ok(state) : NotFound();
 		}
 	}

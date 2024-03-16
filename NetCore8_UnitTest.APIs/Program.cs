@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 using NetCore8_UnitTest.APIs.Data;
+using NetCore8_UnitTest.APIs.Interfaces;
+using NetCore8_UnitTest.APIs.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<NetCoreDemoDbContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging());
+
+builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
 var app = builder.Build();
 
