@@ -4,12 +4,8 @@ using NetCore8_UnitTest.APIs.Interfaces;
 
 namespace NetCore8_UnitTest.APIs.Services.Base
 {
-	public class StateRepo : RepositoryBase<State>, IStateRepo
+	public class StateRepo(NetCoreDemoDbContext context) : RepositoryBase<State>(context), IStateRepo
 	{
-		private readonly NetCoreDemoDbContext _context;
-		public StateRepo(NetCoreDemoDbContext context) : base(context)
-		{
-			_context = context;
-		}
+		private readonly NetCoreDemoDbContext _context = context;
 	}
 }

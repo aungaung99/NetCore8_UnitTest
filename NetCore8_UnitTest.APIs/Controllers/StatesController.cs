@@ -1,30 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
-using NetCore8_UnitTest.APIs.Data;
 using NetCore8_UnitTest.APIs.Entities;
+using NetCore8_UnitTest.APIs.Interfaces;
 
 namespace NetCore8_UnitTest.APIs.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class StatesController(NetCoreDemoDbContext context) : ControllerBase
+	public class StatesController(IRepositoryWrapper repository) : ControllerBase
 	{
-		private readonly NetCoreDemoDbContext _context = context;
+		private readonly IRepositoryWrapper _repository = repository;
 
 		[HttpGet]
-		public async Task<IActionResult> GetListAsync()
+		public async Task<ActionResult<IReadOnlyList<State>?>> GetListAsync()
 		{
-			List<State> list = await _context.States.ToListAsync();
-
-			return list.Count > 0 ? Ok(list) : NotFound();
+			IReadOnlyList<State>? list = await _repository.States.GetAsync();
+			return list?.Count > 0 ? Ok(list) : NotFound();
 		}
 
-		[HttpGet("/{id}")]
-		public async Task<IActionResult> GetByIdAsync(int id)
+		[HttpGet("{id}")]
+		public async Task<ActionResult<State?>> GetByIdAsync(int id)
 		{
-			State? state = await _context.States.FirstOrDefaultAsync(x => x.StateId == id).ConfigureAwait(false);
-			return state != null ? Ok(state) : NotFound();
+			State? state = await _repository.States.GetByIdAsync(id);
+			return state != null ? Ok(state) : NotFound("Not found");
 		}
 	}
 }

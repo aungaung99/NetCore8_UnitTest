@@ -16,17 +16,17 @@ namespace NetCore8_UnitTest.APIs.Services.Base
 			return Context.Set<T>().ToList();
 		}
 
-		public async Task<IReadOnlyList<T>> GetAsync()
+		public async Task<IReadOnlyList<T>?> GetAsync()
 		{
 			return await Context.Set<T>().ToListAsync();
 		}
 
-		public async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate)
+		public async Task<IReadOnlyList<T>?> GetAsync(Expression<Func<T, bool>> predicate)
 		{
 			return await Context.Set<T>().Where(predicate).ToListAsync();
 		}
 
-		public async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>>? predicate = null,
+		public async Task<IReadOnlyList<T>?> GetAsync(Expression<Func<T, bool>>? predicate = null,
 													Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
 													string? includeString = null,
 													bool disabledTrachking = true)
@@ -50,7 +50,7 @@ namespace NetCore8_UnitTest.APIs.Services.Base
 			return orderBy != null ? await orderBy(query).ToListAsync() : (IReadOnlyList<T>)await query.ToListAsync();
 		}
 
-		public async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>>? predicate = null,
+		public async Task<IReadOnlyList<T>?> GetAsync(Expression<Func<T, bool>>? predicate = null,
 											Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
 											List<Expression<Func<T, object>>>? includes = null,
 											bool disabledTrachking = true)
@@ -84,17 +84,17 @@ namespace NetCore8_UnitTest.APIs.Services.Base
 			return await Context.Set<T>().FindAsync(keys);
 		}
 
-		public async Task<IReadOnlyList<T>> GetFromSqlAsync(FormattableString sql)
+		public async Task<IReadOnlyList<T>?> GetFromSqlAsync(FormattableString sql)
 		{
 			return await Context.Set<T>().FromSql(sql).ToListAsync();
 		}
 
-		public async Task<IReadOnlyList<T>> GetFromSqlInterpolatedAsync(FormattableString sql)
+		public async Task<IReadOnlyList<T>?> GetFromSqlInterpolatedAsync(FormattableString sql)
 		{
 			return await Context.Set<T>().FromSqlInterpolated(sql).ToListAsync();
 		}
 
-		public async Task<IReadOnlyList<T>> GetFromSqlRawAsync(string sql)
+		public async Task<IReadOnlyList<T>?> GetFromSqlRawAsync(string sql)
 		{
 			return await Context.Set<T>().FromSqlRaw(sql).ToListAsync();
 		}

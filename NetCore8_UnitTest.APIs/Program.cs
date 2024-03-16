@@ -17,6 +17,8 @@ builder.Services.AddDbContext<NetCoreDemoDbContext>(opt => opt.UseSqlServer(conf
 
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

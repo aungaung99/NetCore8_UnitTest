@@ -6,9 +6,9 @@ using NetCore8_UnitTest.APIs.Services.Base;
 
 namespace NetCore8_UnitTest.APIs.Services
 {
-	public class RepositoryWrapper
+	public class RepositoryWrapper(NetCoreDemoDbContext context) : IRepositoryWrapper
 	{
-		private readonly NetCoreDemoDbContext _context;
+		private readonly NetCoreDemoDbContext _context = context;
 
 		// Tables
 		private IStateRepo? _states;
@@ -17,8 +17,6 @@ namespace NetCore8_UnitTest.APIs.Services
 		{
 			get { _states ??= new StateRepo(_context); return _states; }
 		}
-
-		public RepositoryWrapper(NetCoreDemoDbContext context) => _context = context;
 
 
 		// Db Action without Async
